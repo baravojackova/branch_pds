@@ -1,0 +1,42 @@
+!PDS – sensitivity analysis
+!SIMPLE BRANCH OF LOWER ORDER – PULLING TEST AND SENSITIVITY ANALYSIS [m,N,Pa,°,kg] 
+!vetv_pds.mac
+!==============================================================================================================
+!--------------------------------------------INPUT PARAMETERS--------------------------------------------------
+/inp,vetv,mac				!run macro strom.mac
+/pds						!start "probabilistic design system"
+pdanl,vetv,mac				!job name 
+!-------input parameters
+pdvar,alfa,unif,0,45			!angle of attachment uniform distribution
+pdvar,l_11,unif,2,4			!branch length uniform distribution 
+pdvar,r1_k,unif,0.05,0.25		!branch base radius uniform distribution 
+pdvar,r_kmen,unif,0,0.1		!initial rotation of stem/branch base uniform distribution 
+pdvar,kof_sb,unif,0,0.5		!tapering uniform distribution 
+pdvar,kof_el,unif,1,2			!coefficient for ellipse uniform distribution 
+pdvar,radv,unif,1,1000			!branch curvature uniform distribution 
+!
+pdvar,ko_ef1,tgau,1,0.25		!coefficient for reduction of EL Gaussian distribution 
+pdvar,ko_ef2,tgau,1,0.25
+pdvar,ko_ef3,tgau,1,0.25
+pdvar,ko_ef4,tgau,1,0.25
+!--------output parameters
+pdvar,max_disp,resp			!maximal displacement
+pdvar,rot_3a,resp				!rotation in middle of branch
+pdvar,rot_5a,resp				!rotation at the end of branch
+pdvar,rot_3asum,resp			
+pdvar,rot_5asum,resp			
+!
+pdvar,T1_uy,resp				!displacemet
+pdvar,T2_uy,resp			
+pdvar,T3_uy,resp			
+pdvar,T4_uy,resp			
+pdvar,T5_uy,resp			 
+!
+pdvar,d_l,resp			!slenderness
+pdvar,d_lsbh,resp			!tapering
+pdmeth,mcs,dir					!Monte Carlo simulaton 
+pddmcs,400,none,all,,,,123457 		!400 calculations, initial seed of 123457
+pdexe,vetv						!run analysis 
+pdsesns,vetv,l_11,both,rank,0.025		!display graph – spearman. coeff, p 2.5%
+/eof							!finish
+
